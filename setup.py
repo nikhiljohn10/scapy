@@ -24,7 +24,7 @@ def main():
         url="https://github.com/nikhiljohn10/scapy",
         license="MIT",
         packages=find_packages(),
-        install_requires=["requests,cloudflare-api"],
+        install_requires=["cloudflare-api>=2.0.4"],
         keywords=["stepca", "cloudflare-api", "workers", "certificate"],
         classifiers=[
             "Development Status :: 4 - Beta",
