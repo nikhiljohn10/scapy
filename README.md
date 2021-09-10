@@ -1,2 +1,2 @@
-# scapy
-Step CA Python Manager
+# Scapy Manager
+Step CA Manager using Python

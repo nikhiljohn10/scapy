@@ -1,0 +1,52 @@
+[tool.poetry]
+authors = ["Nikhil John <nikhiljohn1010@gmail.com>"]
+description = "Step CA Manager using Python"
+license = "MIT"
+name = "scapy"
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+click = "^8.0.1"
+cloudflare-api = "^2.0.4"
+python = "^3.8"
+tox = "^3.24.3"
+
+[tool.poetry.dev-dependencies]
+black = "^21.8b0"
+coverage = "^5.5"
+flake8 = "^3.9.2"
+isort = "^5.9.3"
+mypy = "^0.910"
+pre-commit = "^2.15.0"
+pytest = "^6.2.5"
+twine = "^3.4.2"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+exclude = '''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | \.vscode
+    | _build
+    | buck-out
+    | build
+    | dist
+    | tests
+  )/
+)
+'''
+include = '\.pyi?$'
+line-length = 79
+target-version = ['py38','py39']
