@@ -9,7 +9,7 @@ from setuptools import find_packages, setup
 def main():
     """Scapy Manager's main setup method."""
     HERE = pathlib.Path(__file__).parent
-    version_file = HERE / "CloudflareAPI/__version__.py"
+    version_file = HERE / "scapy/__version__.py"
     version_file = version_file.resolve(strict=True).read_text()
     VERSION = re.compile(r"#v(.+)").search(version_file).group(1)
 
