@@ -1,6 +1,12 @@
 .DEFAULT_GOAL := help
 .PHONY: install invenv clean reset coverage deps test
+
 PIP=$(shell which pip3 || which pip)
+VERSION_FILE := $(shell pwd)/scapy/__version__.py
+CURRENT_VERSION := $(subst \#v,,$(shell cat $(VERSION_FILE)))
+
+version:  ## Display current version
+	@echo "scapy v$(CURRENT_VERSION)"
 
 install:  ## Install poetry
 ifeq ($(PIP),)
@@ -23,6 +29,29 @@ reset: clean  ## Reset poetry cache
 
 test:  ## Run tests
 	@poetry run pytest -ra
+
+build: test clean  ## Build package
+	@poetry run python setup.py sdist bdist_wheel
+
+check-build:  ## Check the package built
+	@poetry run twine check dist/*
+
+publish: check-build  ## Publish package in pypi.org
+	@poetry run twine upload dist/*
+
+bump:  ## Bump to new version
+ifeq ($(VERSION),)
+	@echo "Error: Require VERSION variable to be set."
+else ifeq ($(VERSION),$(CURRENT_VERSION))
+	@echo "Error: You have given current version as input. Please try again."
+else
+	@echo "#v$(VERSION)" > $(VERSION_FILE)
+	@poetry version $(VERSION)
+	@git add .
+	@git commit -m "bump version to v$(VERSION)"
+	@git tag -a "v$(VERSION)" HEAD -m "cloudflare-api v$(VERSION)"
+	@git push --follow-tags
+endif
 
 help: ## Show help message
 	@IFS=$$'\n' ; \
