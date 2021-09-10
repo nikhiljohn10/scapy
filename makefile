@@ -11,9 +11,6 @@ endif
 deps:  ## Install dependencies
 	@poetry update
 
-tox:  ## Run tests with coverage
-	@-poetry run tox
-
 check:  ## Check package using pre-commit
 	@-poetry run pre-commit run --all-files
 
