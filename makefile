@@ -30,6 +30,9 @@ reset: clean  ## Reset poetry cache
 test:  ## Run tests
 	@poetry run pytest -ra
 
+run:
+	@poetry run python examples/deploy.py \
+
 build: test clean  ## Build package
 	@poetry run python setup.py sdist bdist_wheel
 

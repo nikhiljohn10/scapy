@@ -1,66 +1,60 @@
 #!/usr/bin/env python3
 """Cloudflare Worker module to deploy Root certificate."""
 
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Union
 
 from CloudflareAPI import Cloudflare
+from CloudflareAPI.api import Worker as CFWorker
 from CloudflareAPI.exceptions import CFError
 
-WORKER_NS_NAME_KEY = "CA_CERT_STORE"
-WORKER_TITLE_KEY = "CA_TITLE"
-WORKER_FINGERPRINT_KEY = "ROOT_CA_FINGERPRINT"
-WORKER_CA_URL_KEY = "ROOT_CA_URL"
 
-
-@dataclass
-class WorkerData:
-    """Data class which store basic information about the Root Certificate.
-
-    Args:
-        title (str): Title of the Worker
-        fingerprint (str): Fingerprint to attach to the worker
-        url (str): CA URL to attach to the worker
-    """
-
-    title: str
-    fingerprint: str
-    url: str
-
-    def get_metadata(self, worker):
-        """Generate and return metadata for the Cloudflare worker.
-
-        Args:
-            worker (CloudflareAPI.Worker): Worker instance of Cloudflare API.
-
-        Returns:
-            CloudflareAPI.Worker.Metadata: Contains metadata of the worker to
-            be uploaded.
-        """
-        metadata = worker.Metadata()
-        metadata.add_variable(WORKER_TITLE_KEY, self.title)
-        metadata.add_variable(WORKER_FINGERPRINT_KEY, self.fingerprint)
-        metadata.add_variable(WORKER_CA_URL_KEY, self.url)
-        return metadata
-
-
-class Worker(Cloudflare):
+class Worker:
     """Cloudflare Worker class which handle the deployment of Root certificate."""
 
-    def __init__(self, web_title: str, fingerprint: str, ca_url: str) -> None:
-        """Initialise the Worker class.
+    WORKER_NS_NAME_KEY = "CA_CERT_STORE"
+    WORKER_TITLE_KEY = "CA_TITLE"
+    WORKER_FINGERPRINT_KEY = "ROOT_CA_FINGERPRINT"
+    WORKER_CA_URL_KEY = "ROOT_CA_URL"
+
+    def __init__(self, token: Optional[str] = None) -> None:
+        """Initialise the Cloudflare API.
+
+        Args:
+            token (str): Optional argument to pass Cloudflare API Token
+        """
+        self.api = Cloudflare(token=token)
+        self.metadata: Optional[CFWorker.Metadata] = None
+
+    def store(self, web_title: str, fingerprint: str, ca_url: str) -> None:
+        """Store data to be published.
 
         Args:
             web_title (str): Title of the Worker
             fingerprint (str): Fingerprint to attach to the worker
             ca_url (str): CA URL to attach to the worker
         """
-        super().__init__()
-        data = WorkerData(web_title, fingerprint, ca_url)
-        self.metadata = data.get_metadata(self.worker)
+        self.title, self.fingerprint, self.url = (
+            web_title,
+            fingerprint,
+            ca_url,
+        )
 
-    def loadCA(self, rootCA: str):
+    def get_metadata(self, namespace) -> None:
+        """Generate for the Cloudflare worker.
+
+        Args:
+            namespace (CloudflareAPI.dataclass.Namespace): Namespace instance of Cloudflare API.
+        """
+        self.metadata = self.api.worker.Metadata()
+        self.metadata.add_variable(self.WORKER_TITLE_KEY, self.title)
+        self.metadata.add_variable(
+            self.WORKER_FINGERPRINT_KEY, self.fingerprint
+        )
+        self.metadata.add_variable(self.WORKER_CA_URL_KEY, self.url)
+        self.metadata.add_binding(self.WORKER_NS_NAME_KEY, namespace.id)
+
+    def loadCA(self, rootCA: str) -> None:
         """Load the CA certificate and write to the Cloudflare KV Namespace.
 
         Args:
@@ -68,9 +62,9 @@ class Worker(Cloudflare):
         """
         rootca: Optional[Union[bytes, str]] = None
         try:
-            namespace = self.store.get_ns(WORKER_NS_NAME_KEY)
+            namespace = self.api.store.get_ns(self.WORKER_NS_NAME_KEY)
         except CFError:
-            namespace = self.store.create(WORKER_NS_NAME_KEY)
+            namespace = self.api.store.create(self.WORKER_NS_NAME_KEY)
         try:
             rootca = Path(rootCA).read_text()
             namespace.write("root_ca_format", "pem")
@@ -78,26 +72,30 @@ class Worker(Cloudflare):
             rootca = Path(rootCA).read_bytes()
             namespace.write("root_ca_format", "der")
         namespace.write("root_ca", rootca)
-        self.metadata.add_binding(WORKER_NS_NAME_KEY, namespace.id)
+        self.get_metadata(namespace)
 
-    def deploy(self, worker_name: str, file: str) -> str:
-        """Deploy the worker in to CLoudflare Edge network.
+    def deploy(self, name: str, file: str) -> str:
+        """Deploy the worker in to Cloudflare Edge network.
 
         Args:
-            worker_name (str): Name of worker. This name will be reflected in the worker url.
+            name (str): Name of worker. This name will be reflected in the worker url.
             file (str): Javascript file of the worker to deploy
 
         Returns:
             str: Worker url which is deployed in to CLoudflare Edge network
         """
-        worker_file = Path(file).resolve(strict=True)
-        if self.worker.upload(
-            name=worker_name,
-            file=worker_file,
-            metadata=self.metadata,
-        ):
-            if self.worker.deploy(worker_name):
-                subdomain = self.worker.subdomain.get()
-                return f"https://{worker_name}.{subdomain}.workers.dev"
+        if self.metadata is not None:
+            worker_name = name.strip().lower()
+            worker_file = Path(file).resolve(strict=True)
+            if self.api.worker.upload(
+                name=worker_name,
+                file=worker_file,
+                metadata=self.metadata,
+            ):
+                if self.api.worker.deploy(worker_name):
+                    subdomain = self.api.worker.subdomain.get()
+                    return f"https://{worker_name}.{subdomain}.workers.dev"
 
-        raise ValueError("Unexpected input error")
+            raise CFError("Deployment failed")
+
+        raise CFError("Metadata not found")
