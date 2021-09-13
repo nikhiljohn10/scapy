@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Scapy Manager's main program."""
 
-from .arguments import worker_arguments
-from .worker import Worker
+from scapy import Worker
+from scapy.arguments import worker_arguments
 
 
 def main():

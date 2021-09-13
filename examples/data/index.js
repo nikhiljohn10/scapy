@@ -20,6 +20,7 @@ function get_html(body) {
 <body>
     <div class="container">
         <div class="row justify-content-md-center">
+            ${body}
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
@@ -114,7 +115,7 @@ function root_page() {
             certificate if you are wish to securely connect to services within our organisatoin.</p>
         <p class="text-secondary mb-5">Fingerprint and CA Url are used for bootstrapping in unix based systems.</p>
         <hr />
-        <p class="text-center text-muted"><small>Copyright &copy; <span id="currentYear"></span> <a href="https://github.com/nikhiljohn10/ca-worker">${CA_TITLE}</a> </small>
+        <p class="text-center text-muted"><small>Copyright &copy; <span id="currentYear"></span> <a href="https://github.com/nikhiljohn10/scapy">Scapy Manager</a></small>
         </p>
     </div>`)
 }
