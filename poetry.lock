@@ -123,7 +123,7 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
 name = "cloudflare-api"
-version = "2.0.4"
+version = "2.1.0"
 description = "Python client for the Cloudflare v4 API"
 category = "main"
 optional = false
@@ -776,8 +776,8 @@ click = [
     {file = "click-8.0.1.tar.gz", hash = "sha256:8c04c11192119b1ef78ea049e0a6f0463e4c48ef00a30160c704337586f3ad7a"},
 ]
 cloudflare-api = [
-    {file = "cloudflare-api-2.0.4.tar.gz", hash = "sha256:a24cb780d64ce972a2f92a4e9e1db60e0e6c2fcde90e761bdeb03daa32a70bf0"},
-    {file = "cloudflare_api-2.0.4-py3-none-any.whl", hash = "sha256:dad6433f08d940e1e6d5fc279ec1d9d23f09201846a7f7691a81047af3d5fa7c"},
+    {file = "cloudflare-api-2.1.0.tar.gz", hash = "sha256:d700740bff16b418e97eb15edda0d00b12218e3931c827b02fbca8a3bafca470"},
+    {file = "cloudflare_api-2.1.0-py3-none-any.whl", hash = "sha256:39b7c3809ba038b094268a7e643681f0f4ca129cbb3b2f3a1fcda9a1dd6f6948"},
 ]
 colorama = [
     {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},

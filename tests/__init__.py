@@ -1,1 +1,0 @@
-"""Scapy Manager test package."""
