@@ -52,7 +52,7 @@ else
 	@poetry version $(VERSION)
 	@git add .
 	@git commit -m "bump version to v$(VERSION)"
-	@git tag -a "v$(VERSION)" HEAD -m "cloudflare-api v$(VERSION)"
+	@git tag -a "v$(VERSION)" HEAD -m "Scapy Manager v$(VERSION)"
 	@git push --follow-tags
 endif
 
