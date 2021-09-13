@@ -1,14 +1,13 @@
-name: Package Check
+name: Pre-merge Check
 on: pull_request
-concurrency: check-${{ github.sha }}
+concurrency: pre-merge-check-${{ github.sha }}
 jobs:
-  check:
+  pre-merge-check:
     name: Check
-    runs-on: ${{matrix.platform}}
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        platform: [ubuntu-latest]
         python-version: [3.8, 3.9]
 
     steps:
