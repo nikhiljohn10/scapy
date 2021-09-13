@@ -1,18 +1,15 @@
-name: Package Test
+name: Package Check
 on: [push, pull_request]
-concurrency: test-${{ github.sha }}
+concurrency: check-${{ github.sha }}
 jobs:
-  test:
-    name: Test
+  check:
+    name: Check
     runs-on: ${{matrix.platform}}
 
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-latest]
         python-version: [3.8, 3.9]
-
-    env:
-      USING_COVERAGE: "3.9"
 
     steps:
       - uses: actions/checkout@v2
@@ -25,10 +22,6 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install tox coverage
 
       - name: Run pre-commit
         uses: pre-commit/action@v2.0.3
-
-      - name: Run tox
-        run: python -m tox
