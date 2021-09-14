@@ -29,5 +29,9 @@ pip install scapy-man
 ### Usage
 
 ```
-scapy deploy --help
+CA_NAME="Scapy CA"
+step ca init --name $CA_NAME
+FINGERPRINT=$(step certificate fingerprint $(step path)/certs/root_ca.crt)
+wget https://raw.githubusercontent.com/nikhiljohn10/scapy/main/examples/data/index.js
+scapy deploy -j index.js -w hello
 ```

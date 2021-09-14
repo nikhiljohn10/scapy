@@ -40,7 +40,7 @@ HOME = Path.home()
 @click.option(
     "-n",
     "--name",
-    envvar="WEB_TITLE",
+    envvar="CA_NAME",
     type=str,
     help="CA Server's Name",
 )
