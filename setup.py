@@ -28,7 +28,7 @@ def main():
         install_requires=["cloudflare-api>=2.0.4", "Click"],
         entry_points={
             "console_scripts": [
-                "scapy = scapy:cli",
+                "scapy = scapy.cli:cli",
             ],
         },
         keywords=["step-ca", "cloudflare-api", "workers", "certificate"],
