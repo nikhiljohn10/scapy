@@ -26,12 +26,13 @@ If successully deployed, you will find a url where the demo CA Root certificate 
 pip install scapy-man
 ```
 
-### Usage
+### Usage with Step CA
 
 ```
 CA_NAME="Scapy CA"
-step ca init --name $CA_NAME
+echo "password" > password.txt
+step ca init --name "$CA_NAME" --dns stepca.local --address :443 --provisioner admin --password-file password.txt
 FINGERPRINT=$(step certificate fingerprint $(step path)/certs/root_ca.crt)
 wget https://raw.githubusercontent.com/nikhiljohn10/scapy/main/examples/data/index.js
-scapy deploy -j index.js -w hello
+scapy deploy -n "$CA_NAME" -j index.js -w scapy -f $FINGERPRINT
 ```
