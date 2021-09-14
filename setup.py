@@ -1,7 +1,7 @@
 """Scapy Manager package setup file."""
 
-import pathlib
 import re
+import pathlib
 
 from setuptools import find_packages, setup
 
@@ -14,7 +14,7 @@ def main():
     VERSION = re.compile(r"#v(.+)").search(version_file).group(1)
 
     setup(
-        name="scapy",
+        name="scapy-man",
         version=VERSION,
         description="Step CA Manager using Python",
         long_description=(HERE / "README.md").read_text(),
@@ -31,7 +31,7 @@ def main():
                 "scapy = scapy.cli.app:cli",
             ],
         },
-        keywords=["stepca", "cloudflare-api", "workers", "certificate"],
+        keywords=["step-ca", "cloudflare-api", "workers", "certificate"],
         classifiers=[
             "Development Status :: 4 - Beta",
             "Intended Audience :: Developers",
