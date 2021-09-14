@@ -33,7 +33,7 @@ test:  ## Run tests
 run:
 	@poetry run bash examples/deploy.sh
 
-build: test clean  ## Build package
+build: clean  ## Build package
 	@poetry run python setup.py sdist bdist_wheel
 
 check-build:  ## Check the package built

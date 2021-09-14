@@ -24,7 +24,13 @@ def main():
         url="https://github.com/nikhiljohn10/scapy",
         license="MIT",
         packages=find_packages(),
-        install_requires=["cloudflare-api>=2.0.4"],
+        py_modules=["scapy"],
+        install_requires=["cloudflare-api>=2.0.4", "Click"],
+        entry_points={
+            "console_scripts": [
+                "scapy = scapy.cli.app:cli",
+            ],
+        },
         keywords=["stepca", "cloudflare-api", "workers", "certificate"],
         classifiers=[
             "Development Status :: 4 - Beta",

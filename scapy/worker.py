@@ -54,27 +54,28 @@ class Worker:
         self.metadata.add_variable(self.WORKER_CA_URL_KEY, self.url)
         self.metadata.add_binding(self.WORKER_NS_NAME_KEY, namespace.id)
 
-    def loadCA(self, rootCA: str) -> None:
+    def loadCA(self, rootCA: Union[str, Path]) -> None:
         """Load the CA certificate and write to the Cloudflare KV Namespace.
 
         Args:
             rootCA (str): Root Certificate file location
         """
         rootca: Optional[Union[bytes, str]] = None
+        rootCA_file = Path(rootCA) if not isinstance(rootCA, Path) else rootCA
         try:
             namespace = self.api.store.get_ns(self.WORKER_NS_NAME_KEY)
         except CFError:
             namespace = self.api.store.create(self.WORKER_NS_NAME_KEY)
         try:
-            rootca = Path(rootCA).read_text()
+            rootca = rootCA_file.read_text()
             namespace.write("root_ca_format", "pem")
         except UnicodeDecodeError:
-            rootca = Path(rootCA).read_bytes()
+            rootca = rootCA_file.read_bytes()
             namespace.write("root_ca_format", "der")
         namespace.write("root_ca", rootca)
         self.get_metadata(namespace)
 
-    def deploy(self, name: str, file: str) -> str:
+    def deploy(self, name: str, file: Union[str, Path]) -> str:
         """Deploy the worker in to Cloudflare Edge network.
 
         Args:
@@ -86,7 +87,11 @@ class Worker:
         """
         if self.metadata is not None:
             worker_name = name.strip().lower()
-            worker_file = Path(file).resolve(strict=True)
+            worker_file = (
+                Path(file).resolve(strict=True)
+                if not isinstance(file, Path)
+                else file
+            )
             if self.api.worker.upload(
                 name=worker_name,
                 file=worker_file,
