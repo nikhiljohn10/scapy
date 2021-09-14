@@ -31,7 +31,7 @@ from .utils import Printer
     "-j",
     "--js",
     envvar="WORKER_FILE",
-    default="./build/index.js",
+    default=Path("./build/index.js"),
     type=click.Path(exists=True),
     help="Worker file location",
 )
@@ -61,7 +61,7 @@ from .utils import Printer
     "-r",
     "--root",
     envvar="ROOT_CERT",
-    default="~/.step/certs/root_ca.crt",
+    default=Path("~/.step/certs/root_ca.crt"),
     type=click.Path(exists=True),
     help="CA Root Certificate file in PEM or DER format",
 )
