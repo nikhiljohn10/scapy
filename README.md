@@ -29,10 +29,10 @@ pip install scapy-man
 ### Usage with Step CA
 
 ```
-CA_NAME="Scapy CA"
+export CA_NAME="Scapy CA"
 echo "password" > password.txt
 step ca init --name "$CA_NAME" --dns stepca.local --address :443 --provisioner admin --password-file password.txt
-FINGERPRINT=$(step certificate fingerprint $(step path)/certs/root_ca.crt)
+export FINGERPRINT=$(step certificate fingerprint $(step path)/certs/root_ca.crt)
 wget https://raw.githubusercontent.com/nikhiljohn10/scapy/main/examples/data/index.js
-scapy deploy -n "$CA_NAME" -j index.js -w scapy -f $FINGERPRINT
+scapy deploy --worker scapy --js index.js
 ```
