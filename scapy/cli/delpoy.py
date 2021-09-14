@@ -9,6 +9,8 @@ from scapy import Worker
 
 from .utils import Printer
 
+HOME = Path.home()
+
 
 @click.command()
 @click.option(
@@ -61,7 +63,7 @@ from .utils import Printer
     "-r",
     "--root",
     envvar="ROOT_CERT",
-    default=Path("~/.step/certs/root_ca.crt"),
+    default=(HOME / ".step/certs/root_ca.crt"),
     type=click.Path(exists=True),
     help="CA Root Certificate file in PEM or DER format",
 )
