@@ -21,7 +21,7 @@ check:  ## Check package using pre-commit
 	@-poetry run pre-commit run --all-files
 
 clean:  ## Clean development files and directories
-	@rm -rf build/ .tox/ .pytest_cache/ .mypy_cache/ *.egg-info/
+	@rm -rf dist/ build/ .tox/ .pytest_cache/ .mypy_cache/ *.egg-info/
 	@find . -type d -name *pycache* -exec rm -rf {} +
 
 reset: clean  ## Reset poetry cache
