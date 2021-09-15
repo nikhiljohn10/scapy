@@ -14,7 +14,8 @@ def worker(file: str) -> None:
     """Generate basic cloudflare worker file."""
     if not file.endswith(".js"):
         raise NameError("The file name must be of type javascript.")
-    worker = Path("./scapy/data/worker.js").resolve(strict=True)
+    project_root = Path(__file__).parent.parent.parent
+    worker = (project_root / "data/worker.js").resolve(strict=True)
     data = worker.read_text()
     js_file = Path(file).resolve()
     if not js_file.parent.exists():
