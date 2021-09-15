@@ -31,6 +31,7 @@ def main():
                 "scapy = scapy.cli:cli",
             ],
         },
+        include_package_data=True,
         keywords=["step-ca", "cloudflare-api", "workers", "certificate"],
         classifiers=[
             "Development Status :: 4 - Beta",

@@ -22,17 +22,33 @@ If successully deployed, you will find a url where the demo CA Root certificate 
 
 ## Python Package
 
-```
+```bash
 pip install scapy-man
 ```
 
 ### Usage with Step CA
 
-```
+```bash
+scapy gen passwords
+scapy gen worker
+
 export CA_NAME="Scapy CA"
-echo "password" > password.txt
-step ca init --name "$CA_NAME" --dns stepca.local --address :443 --provisioner admin --password-file password.txt
-export FINGERPRINT=$(step certificate fingerprint $(step path)/certs/root_ca.crt)
-wget https://raw.githubusercontent.com/nikhiljohn10/scapy/main/examples/data/index.js
-scapy deploy --worker scapy --js index.js
+step ca init \
+--name "$CA_NAME" \
+--dns stepca.local \
+--address :443 \
+--provisioner admin \
+--password-file $(scapy path passwords)/root.txt \
+--provisioner-password-file $(scapy path passwords)/provisioner.txt
+
+export FINGERPRINT=$(step certificate fingerprint $(scapy path certs)/root_ca.crt)
+scapy deploy --worker scapy --js worker.js
 ```
+
+In the above commands,
+ - Generate a password and store in step path
+ - Generate a basic worker file
+ - Export `CA_NAME` variable with CA Name
+ - Generate PKI using Step CA
+ - Export `FINGERPRINT` variable with fingerprint of Root Certificate
+ - Deploy worker `scapy` with `worker.js` as script file.

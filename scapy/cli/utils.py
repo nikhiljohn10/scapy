@@ -37,24 +37,6 @@ class Printer:
             position = 1
         return position
 
-    # def bounce_animation(
-    #     self, direction, position, last_postition
-    # ) -> Tuple[str, str]:
-    #     if direction:
-    #         if position < last_postition:
-    #             position += 1
-    #         else:
-    #             direction = not direction
-    #             position -= 1
-    #     else:
-    #         if position > 1:
-    #             position -= 1
-    #         else:
-    #             direction = not direction
-    #             position += 1
-
-    #     return direction, position
-
     def static_arrow(self, content: str) -> None:
         """Non-animated printing method for first line.
 

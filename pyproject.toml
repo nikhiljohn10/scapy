@@ -51,4 +51,4 @@ line-length = 79
 target-version = ['py38', 'py39']
 
 [tool.poetry.scripts]
-scapy = "scapy.cli.app:cli"
+scapy = "scapy.cli:cli"
