@@ -1,4 +1,4 @@
-# Scapy Manager
+# Scapy Manager (scapy-man)
 Step CA Manager using Python
 
 ## Setup
@@ -38,10 +38,11 @@ step ca init \
 --dns stepca.local \
 --address :443 \
 --provisioner admin \
---password-file $(scapy path passwords)/root.txt \
---provisioner-password-file $(scapy path passwords)/provisioner.txt
+--password-file $(scapy path password root) \
+--provisioner-password-file $(scapy path password provisioner)
 
-export FINGERPRINT=$(step certificate fingerprint $(scapy path certs)/root_ca.crt)
+step crypto change-pass $(scapy path key intermediate)
+export FINGERPRINT=$(step certificate fingerprint $(scapy path cert root))
 scapy deploy --worker scapy --js worker.js
 ```
 

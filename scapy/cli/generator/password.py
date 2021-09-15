@@ -14,14 +14,14 @@ PASSWORD_HOME = Path.home() / ".step/secrets/passwords"
 @click.option(
     "-r",
     "--root",
-    default=(PASSWORD_HOME / "root.txt"),
+    default=(PASSWORD_HOME / "root_ca.txt"),
     type=click.Path(file_okay=True, resolve_path=True, path_type=Path),
     help="Root password file. Ignored if --directory option is given.",
 )
 @click.option(
     "-i",
     "--intermediate",
-    default=(PASSWORD_HOME / "intermediate.txt"),
+    default=(PASSWORD_HOME / "intermediate_ca.txt"),
     type=click.Path(file_okay=True, resolve_path=True, path_type=Path),
     help="Intermediate password file. Ignored if --directory option is given.",
 )
@@ -105,8 +105,8 @@ def passwords(
         return True
 
     if directory is not None:
-        root = directory / "root.txt"
-        intermediate = directory / "intermediate.txt"
+        root = directory / "root_ca.txt"
+        intermediate = directory / "intermediate_ca.txt"
         provisioner = directory / "provisioner.txt"
 
     if have_parent(root, force) and root.write_text(gen_pass()):

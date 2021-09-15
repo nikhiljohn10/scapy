@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 """CLI Command to deploy cloudflare worker."""
 
-from pathlib import Path
-
 import click
+from click.types import Path
 
-from scapy import Worker
-
+from ..core.worker import Worker
+from .settings import DEFAULT_ROOT_CA_FILE, DEFAULT_WORKER_FILE
 from .utils import Printer
-
-HOME = Path.home()
 
 
 @click.command()
@@ -33,7 +30,7 @@ HOME = Path.home()
     "-j",
     "--js",
     envvar="WORKER_FILE",
-    default=Path("./build/index.js"),
+    default=DEFAULT_WORKER_FILE,
     type=click.Path(exists=True),
     help="Worker file location",
 )
@@ -63,7 +60,7 @@ HOME = Path.home()
     "-r",
     "--root",
     envvar="ROOT_CERT",
-    default=(HOME / ".step/certs/root_ca.crt"),
+    default=DEFAULT_ROOT_CA_FILE,
     type=click.Path(exists=True),
     help="CA Root Certificate file in PEM or DER format",
 )
