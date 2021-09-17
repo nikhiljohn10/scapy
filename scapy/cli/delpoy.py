@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """CLI Command to deploy cloudflare worker."""
 
+from pathlib import Path
+
 import click
-from click.types import Path
 
 from ..core.worker import Worker
 from .settings import DEFAULT_ROOT_CA_FILE, DEFAULT_WORKER_FILE
@@ -72,7 +73,7 @@ def deploy(
     fingerprint: str,
     ca_url: str,
     root: Path,
-):
+) -> None:
     """Deploy a cloudflare worker to publish CA Certificate."""
     printer = Printer()
     printer.working("Initialising deployment process", animate=False)

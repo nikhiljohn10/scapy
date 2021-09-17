@@ -4,6 +4,7 @@
 import click
 
 from .delpoy import deploy
+from .download import get
 from .generator import gen
 from .install import install
 from .paths import path
@@ -13,3 +14,4 @@ cli.add_command(deploy)
 cli.add_command(gen)
 cli.add_command(path)
 cli.add_command(install)
+cli.add_command(get)

@@ -29,6 +29,8 @@ pip install scapy-man
 ### Usage with Step CA
 
 ```bash
+INSTALLATION_PATHS=$(scapy get step all -p)
+sudo dpkg -i $INSTALLATION_PATHS
 scapy gen passwords
 scapy gen worker
 

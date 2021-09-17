@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """CLI Command utilities."""
 
-
 from multiprocessing import Process
+from pathlib import Path
+from tempfile import mkdtemp
 from time import sleep
-from typing import Optional
+from typing import Any, Optional
 
 import click
+from requests import RequestException, Session
 
 
 class Printer:
@@ -110,3 +112,67 @@ class Printer:
             click.secho(url, nl=False, fg="bright_blue", underline=True)
             click.echo(empty_string)
             click.launch(url)
+
+
+class DownloadError(RequestException):
+    """Error class raised while download fails."""
+
+
+def fetch(url: str) -> Any:
+    """Fetch content from URL.
+
+    Args:
+        url (str): URL string
+
+    Raises:
+        DownloadError: Raise when download fails
+
+    Returns:
+        Any: JSON data or Binary data
+    """
+    with Session() as session:
+        res = session.get(url)
+        if res.ok:
+            if "json" in res.headers["content-type"]:
+                result = res.json()
+            elif "octet-stream" in res.headers["content-type"]:
+                result = res.content
+            else:
+                result = res.text
+        else:
+            raise DownloadError("URL not found/accessable")
+    return result
+
+
+def download(
+    url: str, location: Optional[str] = None, verbose: bool = True
+) -> str:
+    """Download the content and write to file.
+
+    Args:
+        url (str): URL location to download.
+        location (str, optional): Location to write downloaded file. Defaults to None.
+        verbose (bool, optional): Control verbose. Defaults to True.
+
+    Returns:
+        str: Path of the file written.
+    """
+    if verbose:
+        printer = Printer()
+    data = fetch(url)
+    for asset in data["assets"]:
+        if ".deb" in asset["name"]:
+            download_url = asset["browser_download_url"]
+            if verbose:
+                printer.working("Downloading " + asset["name"])
+            data = fetch(download_url)
+            directory = Path(
+                mkdtemp() if location is None else location
+            ).resolve()
+            directory.mkdir(parents=True, exist_ok=True)
+            file = directory / asset["name"]
+            file.write_bytes(data)
+            if verbose:
+                printer.done("Downloaded " + asset["name"] + " successfully")
+            return str(file.resolve(strict=True))
+    raise DownloadError("Data not found")

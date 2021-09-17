@@ -12,6 +12,6 @@ def install():
 
 
 @install.command()
-def step():
+def step() -> None:
     """Install Step CA."""
-    raise Exit("You need root permissions")
+    Exit(0)

@@ -6,6 +6,7 @@ from typing import Optional, Union
 
 from CloudflareAPI import Cloudflare
 from CloudflareAPI.api import Worker as CFWorker
+from CloudflareAPI.dataclass.namespace import Namespace
 from CloudflareAPI.exceptions import CFError
 
 
@@ -40,7 +41,7 @@ class Worker:
             ca_url,
         )
 
-    def get_metadata(self, namespace) -> None:
+    def get_metadata(self, namespace: Namespace) -> None:
         """Generate for the Cloudflare worker.
 
         Args:

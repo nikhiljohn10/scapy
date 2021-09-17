@@ -11,21 +11,21 @@ cloudflare-api = "^2.0.4"
 python = "^3.8"
 
 [tool.poetry.dev-dependencies]
-black = "^21.8b0"
-coverage = "^5.5"
-flake8 = "^3.9.2"
-isort = "^5.9.3"
-mypy = "^0.910"
 pre-commit = "^2.15.0"
-pytest = "^6.2.5"
 twine = "^3.4.2"
+black = "^21.9b0"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=1.0.0"]
 
 [tool.isort]
+force_grid_wrap = 0
+include_trailing_comma = true
+line_length = 79
+multi_line_output = 3
 profile = "black"
+use_parentheses = true
 
 [tool.black]
 exclude = '''
@@ -52,3 +52,13 @@ target-version = ['py38', 'py39']
 
 [tool.poetry.scripts]
 scapy = "scapy.cli:cli"
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_incomplete_defs = true
+show_error_context = true
+strict_equality = true
+strict_optional = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_ignores = true

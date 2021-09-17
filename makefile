@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: install invenv clean reset coverage deps test
+.PHONY: version install deps check clean reset run build check-build build publish bump help
 
 PIP=$(shell which pip3 || which pip)
 VERSION_FILE := $(shell pwd)/scapy/__version__.py
@@ -26,9 +26,6 @@ clean:  ## Clean development files and directories
 
 reset: clean  ## Reset poetry cache
 	@yes | poetry cache clear . --all > /dev/null 2>&1
-
-test:  ## Run tests
-	@poetry run pytest -ra
 
 run:
 	@poetry run bash examples/deploy.sh
