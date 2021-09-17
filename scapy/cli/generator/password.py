@@ -56,8 +56,6 @@ def passwords(
     password_characters = (
         string.ascii_letters + string.digits + string.punctuation
     )
-    print(root)
-    print(directory)
 
     def gen_pass() -> str:
         """Password generation function.
