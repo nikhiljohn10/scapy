@@ -41,7 +41,7 @@ scapy gen passwords
 scapy gen worker
 
 export CA_NAME="Scapy CA"
-export CA_DNS="stepca.local,localhost"
+export CA_DNS="$(hostname).local,localhost"
 step ca init \
 --name "$CA_NAME" \
 --dns "$CA_DNS" \
