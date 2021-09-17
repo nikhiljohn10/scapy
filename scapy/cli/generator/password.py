@@ -103,18 +103,18 @@ def passwords(
     root_path.write_text(gen_pass())
     if root_path.exists():
         click.secho("Root password:          ", nl=False, fg="magenta")
-        click.secho(root_path, fg="green")
+        click.secho(str(root_path), fg="green")
     else:
         click.secho("Unable to write to root password file", fg="red")
     intermediate_path.write_text(gen_pass())
     if intermediate_path.exists():
         click.secho("Intermediate password:  ", nl=False, fg="magenta")
-        click.secho(intermediate_path, fg="green")
+        click.secho(str(intermediate_path), fg="green")
     else:
         click.secho("Unable to write to intermediate password file", fg="red")
     provisioner_path.write_text(gen_pass())
     if provisioner_path.exists():
         click.secho("Provisioner password:   ", nl=False, fg="magenta")
-        click.secho(provisioner_path, fg="green")
+        click.secho(str(provisioner_path), fg="green")
     else:
         click.secho("Unable to write to provisioner password file", fg="red")
