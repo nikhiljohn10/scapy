@@ -44,6 +44,7 @@ export CA_NAME="Scapy CA"
 export CA_DNS="$(hostname).local,localhost"
 step ca init \
 --name "$CA_NAME" \
+--deployment-type standalone \
 --dns "$CA_DNS" \
 --address ":443" \
 --provisioner admin \
