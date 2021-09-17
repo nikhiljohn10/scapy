@@ -3,7 +3,7 @@ authors = ["Nikhil John <nikhiljohn1010@gmail.com>"]
 description = "Step CA Manager using Python"
 license = "MIT"
 name = "scapy"
-version = "0.2.3"
+version = "0.2.4"
 
 [tool.poetry.dependencies]
 click = "^8.0.1"
