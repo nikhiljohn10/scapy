@@ -26,7 +26,13 @@ If successully deployed, you will find a url where the demo CA Root certificate 
 pip install scapy-man
 ```
 
-### Usage with Step CA
+#### Troubleshooting
+
+ - If `scapy` not found: `export PATH=$PATH:$(realpath ~/.local/bin)`
+ - If `pip` not found: `sudo apt install python3-pip`
+ - If `python3-pip` not found: `sudo apt update`
+
+## Usage with Step CA
 
 ```bash
 INSTALLATION_PATHS=$(scapy get step all -p)

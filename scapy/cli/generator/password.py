@@ -4,39 +4,38 @@
 import secrets
 import string
 from pathlib import Path
+from typing import Optional
 
 import click
-
-PASSWORD_HOME = Path.home() / ".step/secrets/passwords"
 
 
 @click.command()
 @click.option(
     "-r",
     "--root",
-    default=(PASSWORD_HOME / "root_ca.txt"),
-    type=click.Path(file_okay=True, resolve_path=True, path_type=Path),
+    default=None,
+    type=click.Path(file_okay=True, resolve_path=True),
     help="Root password file. Ignored if --directory option is given.",
 )
 @click.option(
     "-i",
     "--intermediate",
-    default=(PASSWORD_HOME / "intermediate_ca.txt"),
-    type=click.Path(file_okay=True, resolve_path=True, path_type=Path),
+    default=None,
+    type=click.Path(file_okay=True, resolve_path=True),
     help="Intermediate password file. Ignored if --directory option is given.",
 )
 @click.option(
     "-p",
     "--provisioner",
-    default=(PASSWORD_HOME / "provisioner.txt"),
-    type=click.Path(file_okay=True, resolve_path=True, path_type=Path),
+    default=None,
+    type=click.Path(file_okay=True, resolve_path=True),
     help="Provisioner password file. Ignored if --directory option is given.",
 )
 @click.option(
     "-d",
     "--directory",
     default=None,
-    type=click.Path(dir_okay=True, resolve_path=True, path_type=Path),
+    type=click.Path(file_okay=True, resolve_path=True),
     help="Directory to store passwords",
 )
 @click.option(
@@ -47,16 +46,18 @@ PASSWORD_HOME = Path.home() / ".step/secrets/passwords"
     help="Force to create all needed directories before password generation.",
 )
 def passwords(
-    root: Path,
-    intermediate: Path,
-    provisioner: Path,
-    directory: Path,
+    root: Optional[str],
+    intermediate: Optional[str],
+    provisioner: Optional[str],
+    directory: Optional[str],
     force: bool,
 ) -> None:
     """Generate root, intermediate and provisioner passwords."""
     password_characters = (
         string.ascii_letters + string.digits + string.punctuation
     )
+    print(root)
+    print(directory)
 
     def gen_pass() -> str:
         """Password generation function.
@@ -75,48 +76,45 @@ def passwords(
                 break
         return password
 
-    def have_parent(file: Path, make_parents: bool = False) -> bool:
-        """Check if the file's paraent directory exsits and create if confirmed.
+    if any(item is None for item in [root, intermediate, provisioner]):
+        if directory is None:
+            directory_path = Path.home() / ".step/secrets/passwords"
+        else:
+            directory_path = Path(directory)
 
-        Args:
-            file (Path): File to process
-            make_parents (bool, optional): Force to make parents. Defaults to False.
-        """
-        parent = file.parent
-        if not parent.is_dir():
-            if not make_parents:
-                click.secho(
-                    "Warning: ",
-                    nl=False,
-                    fg="red",
-                )
-                click.echo("To create ", nl=False)
-                click.secho(
-                    file,
-                    nl=False,
-                    fg="bright_yellow",
-                )
-                click.echo(f", the directory {parent.name} is needed.")
-                if not click.confirm(
-                    "Do you wish to create this direcotry and continue?"
-                ):
-                    return False
-            parent.mkdir(parents=True)
-        return True
+        if not directory_path.exists():
+            directory_path.mkdir(parents=True)
 
-    if directory is not None:
-        root = directory / "root_ca.txt"
-        intermediate = directory / "intermediate_ca.txt"
-        provisioner = directory / "provisioner.txt"
+    if root is None:
+        root_path = directory_path / "root_ca.txt"
+    else:
+        root_path = Path(root)
 
-    if have_parent(root, force) and root.write_text(gen_pass()):
+    if intermediate is None:
+        intermediate_path = directory_path / "intermediate_ca.txt"
+    else:
+        intermediate_path = Path(intermediate)
+
+    if provisioner is None:
+        provisioner_path = directory_path / "provisioner.txt"
+    else:
+        provisioner_path = Path(provisioner)
+
+    root_path.write_text(gen_pass())
+    if root_path.exists():
         click.secho("Root password:          ", nl=False, fg="magenta")
-        click.secho(root, fg="green")
-    if have_parent(intermediate, force) and intermediate.write_text(
-        gen_pass()
-    ):
+        click.secho(root_path, fg="green")
+    else:
+        click.secho("Unable to write to root password file", fg="red")
+    intermediate_path.write_text(gen_pass())
+    if intermediate_path.exists():
         click.secho("Intermediate password:  ", nl=False, fg="magenta")
-        click.secho(intermediate, fg="green")
-    if have_parent(provisioner, force) and provisioner.write_text(gen_pass()):
+        click.secho(intermediate_path, fg="green")
+    else:
+        click.secho("Unable to write to intermediate password file", fg="red")
+    provisioner_path.write_text(gen_pass())
+    if provisioner_path.exists():
         click.secho("Provisioner password:   ", nl=False, fg="magenta")
-        click.secho(provisioner, fg="green")
+        click.secho(provisioner_path, fg="green")
+    else:
+        click.secho("Unable to write to provisioner password file", fg="red")
