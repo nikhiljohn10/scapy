@@ -41,17 +41,24 @@ scapy gen passwords
 scapy gen worker
 
 export CA_NAME="Scapy CA"
+export CA_DNS="stepca.local,localhost"
 step ca init \
 --name "$CA_NAME" \
---dns stepca.local \
---address :443 \
+--dns "$CA_DNS" \
+--address ":443" \
 --provisioner admin \
 --password-file $(scapy path password root) \
 --provisioner-password-file $(scapy path password provisioner)
 
-step crypto change-pass $(scapy path key intermediate)
+step crypto change-pass $(scapy path key intermediate) -f \
+--password-file $(scapy path password root) \
+--new-password-file $(scapy path password intermediate)
+
 export FINGERPRINT=$(step certificate fingerprint $(scapy path cert root))
 scapy deploy --worker scapy --js worker.js
+
+sudo setcap CAP_NET_BIND_SERVICE=+eip $(which step-ca)
+step-ca $(scapy path config ca) --password-file $(scapy path password intermediate)
 ```
 
 In the above commands,
