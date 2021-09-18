@@ -1,5 +1,10 @@
 # Scapy Manager (scapy-man)
+
+[![Documentation Status](https://readthedocs.org/projects/scapy-manager/badge/?version=latest)](https://scapy-manager.readthedocs.io/en/latest/?badge=latest)
+
 Step CA Manager using Python
+
+Documenation: [scapy-manager.readthedocs.io](https://scapy-manager.readthedocs.io)
 
 ## Setup
 
@@ -69,3 +74,7 @@ In the above commands,
  - Generate PKI using Step CA
  - Export `FINGERPRINT` variable with fingerprint of Root Certificate
  - Deploy worker `scapy` with `worker.js` as script file.
+
+## Commandline Interface
+
+![Scapy CLI](https://raw.githubusercontent.com/nikhiljohn10/scapy/main/docs/_static/scapy-commands.png)
