@@ -50,7 +50,6 @@ def passwords(
     intermediate: Optional[str],
     provisioner: Optional[str],
     directory: Optional[str],
-    force: bool,
 ) -> None:
     """Generate root, intermediate and provisioner passwords."""
     password_characters = (
