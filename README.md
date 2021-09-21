@@ -1,6 +1,6 @@
 # Scapy Manager (scapy-man)
 
-[![Documentation Status](https://readthedocs.org/projects/scapy-manager/badge/?version=latest)](https://scapy-manager.readthedocs.io/en/latest/?badge=latest)
+[![PyPI - Status](https://img.shields.io/pypi/status/scapy-man)](https://pypi.org/project/scapy-man/) [![PyPI](https://img.shields.io/pypi/v/scapy-man)](https://pypi.org/project/scapy-man/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/scapy-man)](https://pypi.org/project/scapy-man/) [![Documentation Status](https://readthedocs.org/projects/scapy-manager/badge/?version=latest)](https://scapy-manager.readthedocs.io/en/latest/?badge=latest) [![CodeFactor](https://www.codefactor.io/repository/github/nikhiljohn10/scapy/badge)](https://www.codefactor.io/repository/github/nikhiljohn10/scapy) [![GitHub](https://img.shields.io/github/license/nikhiljohn10/scapy)](https://github.com/nikhiljohn10/scapy/blob/main/LICENSE)
 
 Step CA Manager using Python
 
