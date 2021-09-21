@@ -4,7 +4,7 @@
 
 Step CA Manager using Python
 
-Documenation: [scapy-manager.readthedocs.io](https://scapy-manager.readthedocs.io)
+Documenation: [scapy.nikz.in](https://scapy.nikz.in)
 
 ## Setup
 
