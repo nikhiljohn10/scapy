@@ -12,7 +12,7 @@ _DISTRIBUTION_METADATA = metadata("scapy-man")
 project = "Scapy Manager"
 author = _DISTRIBUTION_METADATA["Author"]
 version = _DISTRIBUTION_METADATA["Version"]
-copyright = f"{datetime.now().year}, {author}"
+project_copyright = f"{datetime.now().year}, {author}"
 
 
 extensions = [
