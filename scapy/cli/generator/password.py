@@ -38,13 +38,6 @@ import click
     type=click.Path(file_okay=True, resolve_path=True),
     help="Directory to store passwords",
 )
-@click.option(
-    "-f",
-    "--force",
-    default=False,
-    type=bool,
-    help="Force to create all needed directories before password generation.",
-)
 def passwords(
     root: Optional[str],
     intermediate: Optional[str],

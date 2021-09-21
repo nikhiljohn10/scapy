@@ -34,7 +34,7 @@ pip install scapy-man
 #### Troubleshooting
 
  - If `scapy` not found: `export PATH=$PATH:$(realpath ~/.local/bin)`
- - If `pip` not found: `sudo apt install python3-pip`
+ - If `pip` not found: `sudo apt install python3-pip -y`
  - If `python3-pip` not found: `sudo apt update`
 
 ## Usage with Step CA
