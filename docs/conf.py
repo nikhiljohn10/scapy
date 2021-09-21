@@ -3,7 +3,8 @@
 import os
 import sys
 from datetime import datetime
-from importlib.metadata import metadata
+
+from importlib_metadata import metadata
 
 sys.path.insert(0, os.path.abspath(".."))
 _DISTRIBUTION_METADATA = metadata("scapy-man")
