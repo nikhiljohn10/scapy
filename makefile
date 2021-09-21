@@ -40,16 +40,16 @@ publish: check-build  ## Publish package in pypi.org
 	@poetry run twine upload dist/*
 
 bump:  ## Bump to new version
-ifeq ($(VERSION),)
-	@echo "Error: Require VERSION variable to be set."
-else ifeq ($(VERSION),$(CURRENT_VERSION))
+ifeq ($(version),)
+	@echo "Error: Require 'version' variable to be set."
+else ifeq ($(version),$(CURRENT_VERSION))
 	@echo "Error: You have given current version as input. Please try again."
 else
-	@echo "#v$(VERSION)" > $(VERSION_FILE)
-	@poetry version $(VERSION)
+	@echo "#v$(version)" > $(VERSION_FILE)
+	@poetry version $(version)
 	@git add .
-	@git commit -m "bump version to v$(VERSION)"
-	@git tag -a "v$(VERSION)" HEAD -m "Scapy Manager v$(VERSION)"
+	@git commit -m "bump version to v$(version)"
+	@git tag -a "v$(version)" HEAD -m "Scapy Manager v$(version)"
 	@git push --follow-tags
 endif
 
