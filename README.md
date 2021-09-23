@@ -11,7 +11,7 @@ Documenation: [scapy.nikz.in](https://scapy.nikz.in)
 ```bash
 git clone https://github.com/nikhiljohn10/scapy
 cd scapy
-pip install --user poetry
+pip install poetry
 poetry update
 ```
 

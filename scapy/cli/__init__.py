@@ -21,12 +21,11 @@ def install_callback(ctx: Context, attr: Any, value: Any) -> None:
         attr: Attribute
         value: Value
     """
-    print(attr)
-    print(ctx.resilient_parsing)
+    print(attr.__dict__)
     if not value or ctx.resilient_parsing:
         return value
     shell, path = click_completion.core.install()
-    click.echo("%s Completion installed in %s" % (shell, path))
+    click.echo("%s completion installed in %s" % (shell, path))
     exit(0)
 
 
@@ -50,3 +49,8 @@ cli.add_command(deploy)
 cli.add_command(gen)
 cli.add_command(path)
 cli.add_command(get)
+
+
+# sudo apt update && sudo apt install python3-pip
+# pip install click click_completion cloudflare-api
+# scapy -c
