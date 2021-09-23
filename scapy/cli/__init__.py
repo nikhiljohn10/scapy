@@ -24,7 +24,10 @@ def install_callback(ctx: Context, attr: Any, value: Any) -> None:
     if not value or ctx.resilient_parsing:
         return value
     shell, path = click_completion.core.install()
-    click.echo("%s completion installed in %s" % (shell, path))
+    click.echo("%s completion installed in %s." % (shell, path))
+    click.echo("Use ", nl=False)
+    click.secho(f". {path}", fg="green", bold=True, nl=False)
+    click.echo(" to activate the completion.")
     exit(0)
 
 
