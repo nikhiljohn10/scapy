@@ -17,11 +17,10 @@ def install_callback(ctx: Context, attr: Any, value: Any) -> None:
     """Shell competion function.
 
     Args:
-        ctx: Context
+        ctx (click.core.Context): Context
         attr: Attribute
         value: Value
     """
-    print(attr.__dict__)
     if not value or ctx.resilient_parsing:
         return value
     shell, path = click_completion.core.install()
@@ -49,8 +48,3 @@ cli.add_command(deploy)
 cli.add_command(gen)
 cli.add_command(path)
 cli.add_command(get)
-
-
-# sudo apt update && sudo apt install python3-pip
-# pip install click click_completion cloudflare-api
-# scapy -c
