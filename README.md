@@ -31,6 +31,13 @@ If successully deployed, you will find a url where the demo CA Root certificate 
 pip install scapy-man
 ```
 
+#### Completion
+
+```bash
+scapy --completion
+```
+This command will install the shell completion. To activate the shell completion in currently working shell, run `. ~/.bash_completion` or `source ~/.bash_completion`.
+
 #### Troubleshooting
 
  - If `scapy` not found: `export PATH=$PATH:$(realpath ~/.local/bin)`
