@@ -47,13 +47,25 @@ This command will install the shell completion. To activate the shell completion
 ## Usage with Step CA
 
 ```bash
+# Download deb packages
 INSTALLATION_PATHS=$(scapy get step all -p)
+
+# Install deb packages downloaded
 sudo dpkg -i $INSTALLATION_PATHS
+
+# Generate a password
 scapy gen passwords
+
+# Generate a basic worker file
 scapy gen worker
 
+# Export CA_NAME variable with CA Name
 export CA_NAME="Scapy CA"
+
+# Export domain names to use with this CA
 export CA_DNS="$(hostname).local,localhost"
+
+# Generate a new certificate authority
 step ca init \
 --name "$CA_NAME" \
 --deployment-type standalone \
@@ -63,24 +75,23 @@ step ca init \
 --password-file $(scapy path password root) \
 --provisioner-password-file $(scapy path password provisioner)
 
+# Change default password of intermediate CA private key
 step crypto change-pass $(scapy path key intermediate) -f \
 --password-file $(scapy path password root) \
 --new-password-file $(scapy path password intermediate)
 
+# Export the FINGERPRINT variable with fingerprint of Root CA Certificate
 export FINGERPRINT=$(step certificate fingerprint $(scapy path cert root))
+
+# Deploy the Root CA and Fingerprint with CA URL to Cloudflare Edge server
 scapy deploy --worker scapy --js worker.js
 
+# Enable previllaged prot access for non-root users
 sudo setcap CAP_NET_BIND_SERVICE=+eip $(which step-ca)
+
+# Start Step CA server
 step-ca $(scapy path config ca) --password-file $(scapy path password intermediate)
 ```
-
-In the above commands,
- - Generate a password and store in step path
- - Generate a basic worker file
- - Export `CA_NAME` variable with CA Name
- - Generate PKI using Step CA
- - Export `FINGERPRINT` variable with fingerprint of Root Certificate
- - Deploy worker `scapy` with `worker.js` as script file.
 
 ## Commandline Interface
 
