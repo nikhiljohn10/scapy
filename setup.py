@@ -25,14 +25,24 @@ def main():
         license="MIT",
         packages=find_packages(),
         py_modules=["scapy"],
-        install_requires=["cloudflare-api>=2.0.4", "Click"],
+        install_requires=[
+            "cloudflare-api>=2.0.4",
+            "Click",
+            "click-completion",
+        ],
         entry_points={
             "console_scripts": [
                 "scapy = scapy.cli:cli",
             ],
         },
         include_package_data=True,
-        keywords=["step-ca", "cloudflare-api", "workers", "certificate"],
+        keywords=[
+            "step-ca",
+            "cloudflare-api",
+            "workers",
+            "certificate",
+            "cli",
+        ],
         classifiers=[
             "Development Status :: 5 - Production/Stable",
             "Intended Audience :: Developers",
