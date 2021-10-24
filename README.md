@@ -6,9 +6,9 @@ Step CA Manager using Python
 
 Documenation: [scapy.nikz.in](https://scapy.nikz.in)
 
-### Securing bootstrapping using Cloudflare worker
+### Secure bootstrapping with CA using Cloudflare Worker & WorkerKV
 
-One important feature of Scapy is deployment of a Cloudflare worker using [Cloudflare API](https://github.com/nikhiljohn10/cloudflare-api).
+One important feature of Scapy is deployment of a Cloudflare worker using [Cloudflare API](https://github.com/nikhiljohn10/cloudflare-api) and storing the CA information inside Cloudflare WorkerKVs.
 
 When CA is generated, the fingerprint and local ca url are used for bootstrapping. Distributing this data securily to any machine which require bootstrapping is hard. This is where Cloudflare Proxy service is used to share this data securely to any number of branch offices which maybe link using VPN.
 
